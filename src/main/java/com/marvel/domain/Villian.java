@@ -1,6 +1,6 @@
-package domain;
+package com.marvel.domain;
 
-public class Hero
+public class Villian
 {
     int id;
     String name;

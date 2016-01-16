@@ -1,19 +1,27 @@
-package service;
+package com.marvel.service;
 
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import repository.RandomizerRepository;
-import domain.Game;
-import domain.Henchman;
-import domain.Hero;
-import domain.Mastermind;
-import domain.Scheme;
-import domain.Villian;
+import com.marvel.domain.Game;
+import com.marvel.domain.Henchman;
+import com.marvel.domain.Hero;
+import com.marvel.domain.Mastermind;
+import com.marvel.domain.Scheme;
+import com.marvel.domain.Villian;
+import com.marvel.repository.RandomizerRepository;
 
+@Service
 public class RandomizerService
 {
+    private static final int MAX_VILLIANS = 7;
+
+    private static final int MAX_HENCHMEN = 4;
+
+    private static final int MAX_HEROES = 15;
+
     @Autowired
     RandomizerRepository randomizerRepository;
     
@@ -27,17 +35,17 @@ public class RandomizerService
 	    rand = new Random();
 	Game game = new Game();
 	game.setMastermind(determineMastermind());
-	game.setScheme(determineScheme());
-	game.setVillians(determineVillians(game.getMastermind(),game.getScheme(),numberOfPlayers));
-	game.setHenchmen(determineHenchmen(game.getMastermind(), game.getScheme(), numberOfPlayers));
-	game.setHeroes(determineHeroes(game.getScheme(), numberOfPlayers));
+	//game.setScheme(determineScheme());
+	//game.setVillians(determineVillians(game.getMastermind(),game.getScheme(),numberOfPlayers));
+	//game.setHenchmen(determineHenchmen(game.getMastermind(), game.getScheme(), numberOfPlayers));
+	//game.setHeroes(determineHeroes(game.getScheme(), numberOfPlayers));
 	return null;
     }
     private Scheme determineScheme()
     {
 	int schemeId = rand.nextInt(MAX_SCHEME);
 	Scheme scheme = randomizerRepository.lookupScheme(schemeId);
-	return null;
+	return scheme;
     }
     private Mastermind determineMastermind()
     {
@@ -56,12 +64,12 @@ public class RandomizerService
 	if(numberOfPlayers == 5)
 	    numberOfHeroes++;
 	int[] heroIds = new int[numberOfHeroes];
-	int heroId = rand.nextInt(15);
+	int heroId = rand.nextInt(MAX_HEROES);
 	for(int i = 0; i < numberOfHeroes; i++)
 	{
 	    while(arrayContains(heroIds, heroId))
 	    {
-		heroId = rand.nextInt(15);
+		heroId = rand.nextInt(MAX_HEROES);
 	    }
 	    heroIds[i] = heroId;
 	}
@@ -93,12 +101,12 @@ public class RandomizerService
 	int i = 0;
 	if(mastermindId == 2)
 	    henchmenIds[i++] = 0;
-	int henchmanId = rand.nextInt(4);
+	int henchmanId = rand.nextInt(MAX_HENCHMEN);
 	for(; i < numberOfHenchmen; i++)
 	{
 	    while(arrayContains(henchmenIds, henchmanId))
 	    {
-		henchmanId = rand.nextInt(4);
+		henchmanId = rand.nextInt(MAX_HENCHMEN);
 	    }
 	    henchmenIds[i] = henchmanId;
 	}
@@ -137,12 +145,12 @@ public class RandomizerService
 	if(schemeId == 5)
 	    villianIds[i++] = 5;
 
-	int villian = rand.nextInt(7);
+	int villian = rand.nextInt(MAX_VILLIANS);
 	for(; i < numberOfVillians; i++)
 	{
 	    while(arrayContains(villianIds, villian))
 	    {
-		villian = rand.nextInt(7);
+		villian = rand.nextInt(MAX_VILLIANS);
 	    }
 	    villianIds[i] = villian;
 	}

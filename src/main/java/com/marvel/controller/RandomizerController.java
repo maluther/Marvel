@@ -1,5 +1,4 @@
-package controller;
-import java.util.Random;
+package com.marvel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import service.RandomizerService;
-import domain.Game;
+import com.marvel.domain.Game;
+import com.marvel.service.RandomizerService;
 
 @Controller
-public class Main
+public class RandomizerController
 {
     @Autowired
     RandomizerService randomizerService;
@@ -22,6 +21,4 @@ public class Main
 	Game game = randomizerService.createRandomGame(numberOfPlayers);
 	return game;
     }
-
-    
 }

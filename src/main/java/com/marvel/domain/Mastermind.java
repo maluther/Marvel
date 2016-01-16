@@ -1,6 +1,6 @@
-package domain;
+package com.marvel.domain;
 
-public class Scheme
+public class Mastermind
 {
     int id;
     String name;
