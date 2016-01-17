@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.marvel.domain.Game;
 import com.marvel.service.RandomizerService;
@@ -16,7 +17,7 @@ public class RandomizerController
     RandomizerService randomizerService;
     
     @RequestMapping(value="/randomize", method=RequestMethod.GET)
-    public Game randomGame(@RequestParam int numberOfPlayers)
+    public @ResponseBody Game randomGame(@RequestParam int numberOfPlayers)
     {
 	Game game = randomizerService.createRandomGame(numberOfPlayers);
 	return game;

@@ -1,6 +1,8 @@
 package com.marvel.repository;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -36,34 +38,49 @@ public class RandomizerRepository extends NamedParameterJdbcDaoSupport
     {
 	String query = (String)sql.get("LOOKUP_MASTERMIND");
 	Map<String, Object> parameters = new HashMap<String, Object>();
-	int tableMasterMindId = mastermindId * 10 + 1;
-	parameters.put("mastermindId", tableMasterMindId);
+	parameters.put("mastermindId", mastermindId);
 	Mastermind mastermind = getNamedParameterJdbcTemplate().queryForObject(query, parameters, new BeanPropertyRowMapper<Mastermind>(Mastermind.class));
 	return mastermind;
     }
 
     public Scheme lookupScheme(int schemeId)
     {
-	// TODO Auto-generated method stub
-	return null;
+	String query = (String)sql.get("LOOKUP_SCHEME");
+	Map<String, Object> parameters = new HashMap<String, Object>();
+	parameters.put("schemeId", schemeId);
+	Scheme scheme = getNamedParameterJdbcTemplate().queryForObject(query, parameters, new BeanPropertyRowMapper<Scheme>(Scheme.class));
+	return scheme;
     }
 
     public Villian[] lookupVillians(int[] villianIds)
     {
-	// TODO Auto-generated method stub
-	return null;
+	String query = (String)sql.get("LOOKUP_VILLIANS");
+	Map<String, Object> parameters = new HashMap<String, Object>();
+	parameters.put("villianIds", Arrays.asList(villianIds));
+	Villian[] villians = new Villian[villianIds.length];
+	List<Villian> villianList = getNamedParameterJdbcTemplate().query(query, parameters, new BeanPropertyRowMapper<Villian>(Villian.class));
+	villianList.toArray(villians);
+	return villians;
     }
 
     public Henchman[] lookupHenchmen(int[] henchmenIds)
     {
-	// TODO Auto-generated method stub
-	return null;
+	String query = (String)sql.get("LOOKUP_HENCHMEN");
+	Map<String, Object> parameters = new HashMap<String, Object>();
+	parameters.put("henchmenIds", henchmenIds);
+	Henchman[] henchmen = new Henchman[henchmenIds.length];
+	getNamedParameterJdbcTemplate().query(query, parameters, new BeanPropertyRowMapper<Henchman>(Henchman.class)).toArray(henchmen);
+	return henchmen;
     }
 
     public Hero[] lookupHeroes(int[] heroIds)
     {
-
-	return null;
+	String query = (String)sql.get("LOOKUP_HEROES");
+	Map<String, Object> parameters = new HashMap<String, Object>();
+	parameters.put("heroIds", heroIds);
+	Hero[] heroes = new Hero[heroIds.length];
+	getNamedParameterJdbcTemplate().query(query, parameters, new BeanPropertyRowMapper<Hero>(Hero.class)).toArray(heroes);
+	return heroes;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.marvel.service;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,11 @@ public class RandomizerService
 	    rand = new Random();
 	Game game = new Game();
 	game.setMastermind(determineMastermind());
-	//game.setScheme(determineScheme());
-	//game.setVillians(determineVillians(game.getMastermind(),game.getScheme(),numberOfPlayers));
-	//game.setHenchmen(determineHenchmen(game.getMastermind(), game.getScheme(), numberOfPlayers));
-	//game.setHeroes(determineHeroes(game.getScheme(), numberOfPlayers));
-	return null;
+	game.setScheme(determineScheme());
+	game.setVillians(determineVillians(game.getMastermind(),game.getScheme(),numberOfPlayers));
+	game.setHenchmen(determineHenchmen(game.getMastermind(), game.getScheme(), numberOfPlayers));
+	game.setHeroes(determineHeroes(game.getScheme(), numberOfPlayers));
+	return game;
     }
     private Scheme determineScheme()
     {
@@ -55,7 +56,7 @@ public class RandomizerService
     }
     private Hero[] determineHeroes(Scheme scheme, int numberOfPlayers)
     {
-	int schemeId = scheme.getId()/10;
+	int schemeId = scheme.getId();
 	int numberOfHeroes = 5;
 	if(schemeId == 5)
 	    numberOfHeroes++;
@@ -79,8 +80,8 @@ public class RandomizerService
 
     private Henchman[] determineHenchmen(Mastermind mastermind,  Scheme scheme,int numberOfPlayers)
     {
-	int schemeId = scheme.getId()/10;
-	int mastermindId = mastermind.getId()/10;
+	int schemeId = scheme.getId();
+	int mastermindId = mastermind.getId();
 	int numberOfHenchmen = 0;
 	switch (numberOfPlayers)
 	{
@@ -117,8 +118,8 @@ public class RandomizerService
 
     private Villian[] determineVillians(Mastermind mastermind, Scheme scheme, int numberOfPlayers)
     {
-	int mastermindId = mastermind.getId()/10;
-	int schemeId = scheme.getId()/10;
+	int mastermindId = mastermind.getId();
+	int schemeId = scheme.getId();
 	int numberOfVillians = 0;
 	switch (numberOfPlayers)
 	{
@@ -140,7 +141,7 @@ public class RandomizerService
 	    villianIds[i++] = 1;
 	if(mastermindId == 1)
 	    villianIds[i++] = 0;
-	if(mastermindId == 3 || schemeId == 5)
+	if(mastermindId == 3)
 	    villianIds[i++] = 2;
 	if(schemeId == 5)
 	    villianIds[i++] = 5;
